@@ -11,6 +11,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Constant : NSObject
 
+struct WebSite {
+    NSString *name;
+    NSString *contentSize;
+    NSString *image;
+    bool loaded;
+};
+
 +(NSMutableArray*) getUrls;
 
 @end

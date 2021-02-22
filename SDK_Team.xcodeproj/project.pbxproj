@@ -19,6 +19,8 @@
 		C3B1DE4C25E26D8E001176E0 /* Constant.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B1DE4B25E26D8E001176E0 /* Constant.m */; };
 		C3B1DE6425E274AD001176E0 /* LinkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B1DE6225E274AD001176E0 /* LinkTableViewCell.m */; };
 		C3B1DE6525E274AD001176E0 /* LinkTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3B1DE6325E274AD001176E0 /* LinkTableViewCell.xib */; };
+		C3B1DE7425E28709001176E0 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B1DE7325E28709001176E0 /* NetworkManager.m */; };
+		C3B1DE7E25E29D95001176E0 /* WebsiteObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B1DE7D25E29D95001176E0 /* WebsiteObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +64,10 @@
 		C3B1DE6125E274AD001176E0 /* LinkTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LinkTableViewCell.h; sourceTree = "<group>"; };
 		C3B1DE6225E274AD001176E0 /* LinkTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LinkTableViewCell.m; sourceTree = "<group>"; };
 		C3B1DE6325E274AD001176E0 /* LinkTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LinkTableViewCell.xib; sourceTree = "<group>"; };
+		C3B1DE7225E28709001176E0 /* NetworkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
+		C3B1DE7325E28709001176E0 /* NetworkManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
+		C3B1DE7C25E29D95001176E0 /* WebsiteObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebsiteObject.h; sourceTree = "<group>"; };
+		C3B1DE7D25E29D95001176E0 /* WebsiteObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebsiteObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +118,7 @@
 		C3B1DE0925E26945001176E0 /* SDK_Team */ = {
 			isa = PBXGroup;
 			children = (
+				C3B1DE7825E29C83001176E0 /* Models */,
 				C3B1DE6D25E28108001176E0 /* Controllers */,
 				C3B1DE6925E280F3001176E0 /* Constants */,
 				C3B1DE5D25E27341001176E0 /* NetWorkManager */,
@@ -184,6 +191,8 @@
 		C3B1DE5D25E27341001176E0 /* NetWorkManager */ = {
 			isa = PBXGroup;
 			children = (
+				C3B1DE7225E28709001176E0 /* NetworkManager.h */,
+				C3B1DE7325E28709001176E0 /* NetworkManager.m */,
 			);
 			path = NetWorkManager;
 			sourceTree = "<group>";
@@ -204,6 +213,15 @@
 				C3B1DE1025E26945001176E0 /* ViewController.h */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		C3B1DE7825E29C83001176E0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C3B1DE7C25E29D95001176E0 /* WebsiteObject.h */,
+				C3B1DE7D25E29D95001176E0 /* WebsiteObject.m */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -337,8 +355,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3B1DE4C25E26D8E001176E0 /* Constant.m in Sources */,
+				C3B1DE7425E28709001176E0 /* NetworkManager.m in Sources */,
 				C3B1DE1225E26945001176E0 /* ViewController.m in Sources */,
 				C3B1DE0C25E26945001176E0 /* AppDelegate.m in Sources */,
+				C3B1DE7E25E29D95001176E0 /* WebsiteObject.m in Sources */,
 				C3B1DE6425E274AD001176E0 /* LinkTableViewCell.m in Sources */,
 				C3B1DE1D25E26947001176E0 /* main.m in Sources */,
 				C3B1DE0F25E26945001176E0 /* SceneDelegate.m in Sources */,

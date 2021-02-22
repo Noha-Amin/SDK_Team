@@ -6,13 +6,15 @@
 //
 
 #import "Constant.h"
+#import "WebsiteObject.h"
 
 static NSMutableArray * Urls = nil;
 
 @implementation Constant
 
 + (NSMutableArray *)getUrls{
-    Urls = [[NSMutableArray alloc]initWithObjects:@{ @"name" : @"apple.com", @"image" : @"",@"loaded":@"0"},@{ @"name" : @"spacex.com", @"image" : @"",@"loaded":@"0"},@{ @"name" : @"dapi.co", @"image" : @"",@"loaded":@"0"},@{ @"name" : @"facebook.com", @"image" : @"",@"loaded":@"0"},@{ @"name" : @"microsoft.com", @"image" : @"",@"loaded":@"0"},@{ @"name" : @"amazon.com", @"image" : @"",@"loaded":@"0"},@{ @"name" : @"boomsupersonic.com", @"image" : @"",@"loaded":@"0"},@{ @"name" : @"twitter.com", @"image" : @"",@"loaded":@"0"}, nil];
+    
+    Urls = [[NSMutableArray alloc]initWithObjects:[[WebsiteObject alloc]initWebSiteWith:@"https://www.apple.com" AndContent:@"" AndImage:@"" AndLoaded:@"0"],[[WebsiteObject alloc]initWebSiteWith:@"https://www.spacex.com" AndContent:@"" AndImage:@"" AndLoaded:@"0"],[[WebsiteObject alloc]initWebSiteWith:@"https://www.dapi.co" AndContent:@"" AndImage:@"" AndLoaded:@"0"],[[WebsiteObject alloc]initWebSiteWith:@"https://www.facebook.com" AndContent:@"" AndImage:@"" AndLoaded:@"0"],[[WebsiteObject alloc]initWebSiteWith:@"https://www.microsoft.com" AndContent:@"" AndImage:@"" AndLoaded:@"0"],[[WebsiteObject alloc]initWebSiteWith:@"https://www.amazon.com" AndContent:@"" AndImage:@"" AndLoaded:@"0"],[[WebsiteObject alloc]initWebSiteWith:@"https://www.boomsupersonic.com" AndContent:@"" AndImage:@"" AndLoaded:@"0"],[[WebsiteObject alloc]initWebSiteWith:@"https://www.twitter.com" AndContent:@"" AndImage:@"" AndLoaded:@"0"], nil];
     return Urls;
 }
 @end

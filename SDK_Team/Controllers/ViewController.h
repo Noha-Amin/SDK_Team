@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 #import "LinkTableViewCell.h"
 @interface ViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UIButton *startBtn;
 @property (weak, nonatomic) IBOutlet UITableView *linksTableView;
 
 @end

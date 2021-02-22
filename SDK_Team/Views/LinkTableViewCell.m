@@ -19,6 +19,11 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
 }
+-(void)layoutSubviews{
+    [super layoutSubviews];
+    UIEdgeInsets myLabelInsets = {10, 10, 10, 10};
+    [self.contentView setLayoutMargins:myLabelInsets];
+}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIImageView *urlIcon;
 @property (weak, nonatomic) IBOutlet UILabel *urlTitle;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *lblLeading;
+@property (weak, nonatomic) IBOutlet UILabel *contentSize;
 
 @end
 
