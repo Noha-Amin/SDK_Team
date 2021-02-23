@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 +(NetworkManager *)sharedMySingleton;
 -(void) CallWebistes;
 -(void)callRequestWithItem:(WebsiteObject*) item AndIndex:(int)index;
+-(NSData *)sendSynchronousRequest:(NSURLRequest *)request AndWebsite:(WebsiteObject*) site;
 @property (nonatomic, weak) id <CallLinkDelegate> delegate;
 @end
 

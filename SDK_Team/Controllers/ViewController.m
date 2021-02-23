@@ -20,6 +20,7 @@
 
 NSMutableArray * urls;
 dispatch_group_t serviceGroup ;
+NetworkManager* network;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -27,16 +28,17 @@ dispatch_group_t serviceGroup ;
     [_linksTableView registerNib:nib forCellReuseIdentifier:@"LinkCell"];
     urls = [Constant getUrls];
     [_linksTableView reloadData];
-    NetworkManager* network= NetworkManager.sharedMySingleton;
+    network= NetworkManager.sharedMySingleton;
     network.delegate = self;
     serviceGroup = dispatch_group_create();
 }
 
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    LinkTableViewCell *cell = (LinkTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"LinkCell"];
+    LinkTableViewCell *cell = (LinkTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"LinkCell" forIndexPath:indexPath];
     NSArray *components=[((WebsiteObject*)urls[indexPath.row]).name componentsSeparatedByString:@"www."];
     cell.urlTitle.text = components[1];
+    WebsiteObject* webSite = urls[indexPath.row];
     if (((WebsiteObject*)urls[indexPath.row]).contentSize.length > 1) {
         cell.contentSize.text= [((WebsiteObject*)urls[indexPath.row]).contentSize stringByAppendingString:@" Bytes"];
     }
@@ -48,13 +50,13 @@ dispatch_group_t serviceGroup ;
         [cell.urlIcon setHidden:NO];
     }
 //    if ([[urls[indexPath.row] valueForKey:@"loaded"]  isEqual: @"0"]) {
-//        cell.urlTitle.backgroundColor = [UIColor grayColor];
+//        cell.backgroundColor = [UIColor lightGrayColor];
 //    }else if ([[urls[indexPath.row] valueForKey:@"loaded"]  isEqual: @"1"]) {
-//        cell.urlTitle.backgroundColor = [UIColor blueColor];
+//        cell.backgroundColor = [UIColor blueColor];
 //    }else if ([[urls[indexPath.row] valueForKey:@"loaded"]  isEqual: @"2"]){
-//        cell.urlTitle.backgroundColor = [UIColor greenColor];
+//        cell.backgroundColor = [UIColor greenColor];
 //    }else if ([[urls[indexPath.row] valueForKey:@"loaded"]  isEqual: @"3"]){
-//        cell.urlTitle.backgroundColor = [UIColor redColor];
+//        cell.backgroundColor = [UIColor redColor];
 //    }
     return cell;
     
@@ -67,20 +69,65 @@ dispatch_group_t serviceGroup ;
 }
 - (IBAction)startPressed:(id)sender {
     [self.startBtn setHidden:YES];
-    for (int x=0; x<urls.count; x++) {
-        dispatch_group_enter(serviceGroup);
-        ((WebsiteObject*)urls[x]).loaded = @"1";
-        [self->_linksTableView reloadData];
-        [self requestWebsite:urls[x] AndIndex:x completion:^(id response) {
-            NSLog(@"%@", ((WebsiteObject*)response).contentSize);
-            dispatch_async(dispatch_get_main_queue(),
-                           ^{
-                [self->_linksTableView reloadData];
-            });
-          
-            dispatch_group_leave(serviceGroup);
-        }];
+    
+    // Async Call
+    
+//    for (int x=0; x<urls.count; x++) {
+//        dispatch_group_enter(serviceGroup);
+//        ((WebsiteObject*)urls[x]).loaded = @"1";
+//        [self->_linksTableView reloadData];
+//        [self requestWebsite:urls[x] AndIndex:x completion:^(id response) {
+//            NSLog(@"%@", ((WebsiteObject*)response).contentSize);
+//            dispatch_async(dispatch_get_main_queue(),
+//                           ^{
+//                [self->_linksTableView reloadData];
+//            });
+//
+//            dispatch_group_leave(serviceGroup);
+//        }];
+//    }
+    
+    // sync call
+    for (int index = 0; index < urls.count; index++) {
+        WebsiteObject * site = urls[index];
+        site.loaded = @"1";
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:[NSURL URLWithString:[site valueForKey:@"name"]]];
+        [request setHTTPMethod:@"GET"];
+        NSData * response = [network sendSynchronousRequest:request AndWebsite:site];
+        NSString * kiloBytes = [NSString stringWithFormat:@"%ld",(long) response.length];
+        site.contentSize = kiloBytes;
+        NSLog(kiloBytes);
+//        dispatch_async(dispatch_get_main_queue(),
+//                       ^{
+//            LinkTableViewCell *cell = [self.linksTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+//            cell.contentSize.text =  [site.contentSize stringByAppendingString:@" Bytes"];
+//            cell.backgroundColor = [UIColor greenColor];
+            [self->_linksTableView reloadData];
+//            [self->_linksTableView layoutIfNeeded];
+//            [self->_linksTableView layoutSubviews];
+//        });
     }
+}
+-(NSData *)sendSynchronousRequest:(NSURLRequest *)request AndWebsite:(WebsiteObject*) site{
+    dispatch_semaphore_t    sem;
+    __block NSData *        result;
+
+    result = nil;
+
+    sem = dispatch_semaphore_create(0);
+
+    [[[NSURLSession sharedSession] dataTaskWithRequest:request
+        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error == nil) {
+            result = data;
+        }
+        dispatch_semaphore_signal(sem);
+    }] resume];
+
+    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+
+   return result;
 }
 - (void)requestWebsite:(WebsiteObject*)site AndIndex :(int) index
             completion:(void(^)(id))completion

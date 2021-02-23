@@ -49,6 +49,31 @@ static NetworkManager * NetworkClient = nil;
         //});
     }
 }
+-(NSData *)sendSynchronousRequest:(NSURLRequest *)request AndWebsite:(WebsiteObject*) site{
+    dispatch_semaphore_t    sem;
+    __block NSData *        result;
+
+    result = nil;
+    
+    sem = dispatch_semaphore_create(0);
+
+    [[[NSURLSession sharedSession] dataTaskWithRequest:request
+        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error == nil) {
+            result = data;
+            site.loaded = @"2";
+        }else{
+            site.loaded = @"3";
+        }
+        dispatch_semaphore_signal(sem);
+    }] resume];
+
+    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+    NSString * kiloBytes = [NSString stringWithFormat:@"%ld",(long) result.length];
+    site.contentSize = kiloBytes;
+    
+   return result;
+}
 -(void)callRequestWithItem:(WebsiteObject*) item AndIndex:(int)index{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
